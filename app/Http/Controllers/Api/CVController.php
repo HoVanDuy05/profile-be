@@ -19,6 +19,13 @@ class CVController extends Controller
             'skills' => Skill::all()->groupBy('category'),
             'projects' => Project::all(),
             'experiences' => Experience::all()->groupBy('type'),
+            'debug' => [
+                'user_found' => \App\Models\User::where('email', 'vanduyho717@gmail.com')->exists(),
+                'user_count' => \App\Models\User::count(),
+                'db_name' => config('database.connections.mysql.database'),
+                'db_host' => config('database.connections.mysql.host'),
+                'db_user' => config('database.connections.mysql.username'),
+            ]
         ]);
     }
 }
