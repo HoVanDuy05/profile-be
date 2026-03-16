@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ExperienceController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\MediaController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\MessageController;
 use Illuminate\Support\Facades\Route;
  
 // Public routes
