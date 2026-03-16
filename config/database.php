@@ -60,8 +60,8 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => array_filter([
-                defined('PDO::MYSQL_ATTR_SSL_CA') ? PDO::MYSQL_ATTR_SSL_CA : 1009 => env('MYSQL_ATTR_SSL_CA', true),
-                defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT') ? PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT : 1014 => (bool) env('DB_SSL_VERIFY', false),
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => (bool) env('DB_SSL_VERIFY', false),
             ]),
         ],
 
