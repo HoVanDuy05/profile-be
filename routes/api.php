@@ -19,9 +19,12 @@ Route::get('/debug-auth', function() {
     $user = \App\Models\User::where('email', 'vanduyho717@gmail.com')->first();
     return [
         'user_found' => (bool)$user,
-        'pass_verify' => $user ? \Illuminate\Support\Facades\Hash::check('12345678', $user->password) : false,
-        'app_env' => config('app.env'),
+        'user_count' => \App\Models\User::count(),
         'db_name' => config('database.connections.mysql.database'),
+        'db_host' => config('database.connections.mysql.host'),
+        'db_username' => config('database.connections.mysql.username'),
+        'all_users' => \App\Models\User::pluck('email'),
+        'app_env' => config('app.env'),
     ];
 });
  
