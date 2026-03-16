@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/cv-data', [CVController::class, 'index']);
 Route::post('/contact', [ContactController::class, 'store']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/debug-auth', function() {
+    $user = \App\Models\User::where('email', 'vanduyho717@gmail.com')->first();
+    return [
+        'user_found' => (bool)$user,
+        'pass_verify' => $user ? \Illuminate\Support\Facades\Hash::check('12345678', $user->password) : false,
+        'app_env' => config('app.env'),
+        'db_name' => config('database.connections.mysql.database'),
+    ];
+});
  
 // Protected Admin CRUD routes
 Route::middleware('auth:sanctum')->group(function () {
