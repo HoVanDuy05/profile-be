@@ -54,17 +54,19 @@ class CVDataSeeder extends Seeder
 
         // Experiences
         Experience::create([
-            'title' => 'Junior Fullstack Developer',
+            'position' => 'Junior Fullstack Developer',
             'company' => 'Freelance / Personal Projects',
-            'period' => '2023 - Present',
+            'start_date' => '2023',
+            'is_current' => true,
             'description' => 'Phát triển các ứng dụng web hiện đại sử dụng React, Node.js và Laravel. Tập trung vào tối ưu hóa mã nguồn và trải nghiệm người dùng.',
             'type' => 'work',
         ]);
 
         Experience::create([
-            'title' => 'Lập trình Web (Full-stack)',
+            'position' => 'Lập trình Web (Full-stack)',
             'company' => 'Cao đẳng FPT Polytechnic',
-            'period' => '2024 - 2026',
+            'start_date' => '2024',
+            'end_date' => '2026',
             'description' => 'Chuyên ngành Phát triển phần mềm, tập trung vào các công nghệ web hiện đại và quy trình phát triển sản phẩm thực tế.',
             'type' => 'edu',
         ]);
