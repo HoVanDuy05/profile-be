@@ -27,6 +27,14 @@ Route::get('/experience', [ExperienceController::class, 'index']);
 Route::get('/experience/{id}', [ExperienceController::class, 'show']);
 Route::get('/profile', [ProfileController::class, 'show']);
 
+// Handle all OPTIONS preflight requests explicitly (for CORS on Render)
+Route::options('/{any}', function() {
+    return response('', 200)
+        ->header('Access-Control-Allow-Origin', '*')
+        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+})->where('any', '.*');
+
 // Protected Admin CRUD routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/dashboard/stats', [\App\Http\Controllers\Api\DashboardController::class, 'getStats']);
