@@ -13,6 +13,11 @@ class SkillController extends Controller
         return response()->json(Skill::all());
     }
 
+    public function show($id)
+    {
+        return response()->json(Skill::findOrFail($id));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

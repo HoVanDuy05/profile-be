@@ -8,13 +8,17 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
+    public function show()
+    {
+        $profile = Profile::first();
+        return response()->json(['profile' => $profile]);
+    }
+
     public function update(Request $request)
     {
-        $profile = Profile::firstOrFail();
-        
         $validated = $request->validate([
-            'name' => 'string|max:255',
-            'title' => 'string|max:255',
+            'name' => 'nullable|string|max:255',
+            'title' => 'nullable|string|max:255',
             'email' => 'nullable|email',
             'phone' => 'nullable|string|max:20',
             'location' => 'nullable|string|max:255',
@@ -28,9 +32,12 @@ class ProfileController extends Controller
             'projects_count' => 'nullable|string',
             'clients_count' => 'nullable|string',
         ]);
- 
-        $profile->update($validated);
- 
+
+        $profile = Profile::updateOrCreate(
+            ['id' => 1], // Assuming ID 1 for the main profile
+            $validated
+        );
+
         return response()->json($profile);
     }
 }

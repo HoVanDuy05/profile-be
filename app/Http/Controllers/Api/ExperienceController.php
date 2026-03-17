@@ -13,6 +13,11 @@ class ExperienceController extends Controller
         return response()->json(Experience::all());
     }
 
+    public function show($id)
+    {
+        return response()->json(Experience::findOrFail($id));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

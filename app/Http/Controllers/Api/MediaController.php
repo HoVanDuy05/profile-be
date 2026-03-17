@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
  
 class MediaController extends Controller
 {
     public function index()
     {
-        return response()->json(Media::latest()->get());
+        $media = Media::latest()->get();
+        Log::info('Media list fetched', ['count' => $media->count()]);
+        return response()->json($media);
     }
  
     public function store(Request $request)
@@ -25,15 +28,21 @@ class MediaController extends Controller
         
         try {
             // Priority: Cloudinary
-            $uploadedFileUrl = Cloudinary::upload($file->getRealPath())->getSecurePath();
-            $publicId = Cloudinary::getPublicId();
-            $url = $uploadedFileUrl;
+            Log::info('Attempting Cloudinary upload', ['file' => $file->getClientOriginalName()]);
+            $uploadResult = Cloudinary::upload($file->getRealPath());
+            $url = $uploadResult->getSecurePath();
+            $publicId = $uploadResult->getPublicId();
             $filename = $file->getClientOriginalName();
+            Log::info('Cloudinary upload success', ['url' => $url, 'public_id' => $publicId]);
         } catch (\Exception $e) {
+            Log::error('Cloudinary upload failed, falling back to local', [
+                'error' => $e->getMessage(),
+                'file' => $file->getClientOriginalName()
+            ]);
             // Fallback: Local Storage
             $filename = time() . '_' . $file->getClientOriginalName();
             $path = $file->storeAs('uploads', $filename, 'public');
-            $url = Storage::url($path);
+            $url = '/storage/' . $path; // Store relative path for consistency with ProfileManager
             $publicId = null;
         }
  
@@ -44,7 +53,13 @@ class MediaController extends Controller
             'mime_type' => $file->getMimeType(),
             'size' => $file->getSize(),
         ]);
- 
+
+        Log::info('File uploaded', [
+            'id' => $media->id,
+            'url' => $media->url,
+            'driver' => $publicId ? 'Cloudinary' : 'Local'
+        ]);
+
         return response()->json($media, 201);
     }
  
