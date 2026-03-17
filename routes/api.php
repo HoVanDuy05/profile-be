@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/cv-data', [CVController::class , 'index']);
 Route::post('/contact', [ContactController::class, 'store']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
 
 // Protected Admin CRUD routes
 Route::middleware('auth:sanctum')->group(function () {
